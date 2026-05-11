@@ -30,16 +30,13 @@ def parse_whois(data):
         "email": email
         }
 
+def lookup_domain(url):
+    whoxy_fetch = fetch_whois(url)
+    whoxy_data = parse_whois(whoxy_fetch)
+    return whoxy_data
+
 
 if __name__ == "__main__":
-    fake_data = {
-        "status": 1,
-        "domain_name": "bbc.co.uk",
-        "registrant_contact": {
-            "full_name": "Greg Lingris",
-            "company_name": "Digicorp"
-        }
-    }
-    result = parse_whois(fake_data)
+    result = lookup_domain("diariomedico.com")
     print(result)
 
