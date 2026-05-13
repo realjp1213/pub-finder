@@ -179,7 +179,7 @@ SQLite is built into Python — no setup, no account, no internet required. The 
 | Task | How it connects to the project |
 |---|---|
 | What is a database and why | Instead of printing results, I try to save them — I feel the problem first |
-| SQLite basics | Create one table: `domain_profiles` with columns for domain, owner_name, email, created_at |
+| SQLite basics | Create two tables: `analyses` (stores full LLM output per lookup) and `domains_seen` (tracks every domain queried with timestamp) — update `database.py` to match |
 | Writing queries | After saving, retrieve the result — `/lookup` checks database before calling Whoxy |
 | Why caching matters | Discovered naturally — calling Whoxy every time costs money and is slow |
 
@@ -198,15 +198,18 @@ Same pattern for every agent:
 4. Connect to existing `/lookup` endpoint
 5. Save to existing database
 6. Test alongside previous agents
+7. After all agents run, feed collected data to an LLM and store the analysis in the `analyses` table
 
 | Week | Agent | New concept learned through it |
 |---|---|---|
-| 10-11 | sellers.json | Parsing JSON from a URL, handling missing files |
-| 12-13 | Site scraper | BeautifulSoup, finding emails with regex |
-| 14 | GitHub API | Authentication headers, rate limits |
-| 15-16 | Google Custom Search | Query parameters, intro to async |
+| 10-11 | Whoxy History API | Complete the WHOIS agent — historical registrant data |
+| 12-13 | Whoxy Reverse API | Expand to associated domains — one owner, many sites |
+| 14 | sellers.json | Parsing JSON from a URL, handling missing files |
+| 15 | Site scraper with BeautifulSoup | Finding emails with regex, scraping contact/about pages — includes website.informer |
+| 16 | GitHub API | Authentication headers, rate limits |
+| 17-18 | Google Custom Search | Query parameters, intro to async |
 
-**By end of Phase 3:** One domain lookup triggers 5 agents, all results merge into one profile.
+**By end of Phase 3:** One domain lookup triggers all agents, collected data is fed to an LLM, and a full analysis is stored in the database.
 
 ---
 
